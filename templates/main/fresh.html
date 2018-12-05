@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{% static 'js/echarts.js' %}"></script>
+{#    <script src="/static/js/jquery-1.8.3.min.js" type="text/javascript"></script>#}
+    <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+    <title>zzzzzz</title>
+</head>
+<body>
+<input type="button" id="content" value="click me ">
+<div id="main" style="width: 600px;height:400px;"></div>
+<script>
+
+    $("#content").click(function () {
+       setInterval(function() {
+        window.location.href=" {% url 'main:show' %}";
+          var myChart = echarts.init(document.getElementById('main'));
+          // 显示标题，图例和空的坐标轴
+          var names = [];    //类别数组（实际用来盛放X轴坐标值）
+          var nums = [];    //销量数组（实际用来盛放Y坐标值）
+          $.ajax({
+              type: "get",
+              async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+              url: "{% url 'main:show' %}",
+              data: {},
+              dataType: "json",        //返回数据形式为json
+              success: function (result) {
+                  //请求成功时执行该函数内容，result即为服务器返回的json对象
+                  console.log(result);
+                  names=result[1];
+                  nums=result[0];
+                   myChart.setOption({
+              title: {
+                  text: '数量显示'
+              },
+              tooltip: {},
+              legend: {
+                  data: ['数量']
+              },
+              xAxis: {
+                  data: names
+              },
+              yAxis: {},
+              series: [{
+                  name: 'amount',
+                  type: 'bar',
+                  data: nums
+              }]
+          });
+
+              },
+
+              error: function (errorMsg) {
+                  //请求失败时执行该函数
+                  alert("图表请求数据失败!");
+                  myChart.hideLoading();
+              }
+          })
+
+        } , 1000);
+       // 使用刚指定的配置项和数据显示图表。
+    })
+</script>
+
+</body>
+</html>
