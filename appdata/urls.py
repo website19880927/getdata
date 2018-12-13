@@ -15,5 +15,7 @@ urlpatterns = [
     path('login/',views.login_port,name='login'),
     path('logic/',views.login_logic,name='logic'),
     path('show/',views.show,name='show'),
+    path('show_diagram',views.show_diagram,name='show_diagram'),
+    path('reset',views.reset,name='reset')
 
 ]
