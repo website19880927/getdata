@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from appdata.models import User, Alu
 
-import requests
 
 def login_port(request):
     print(request.GET.get('error'))
@@ -34,7 +33,7 @@ def login_logic(request):
     print('logic')
     if User.objects.filter(username=u,password=p):
         print('fresh')
-        return render(request,'main/fresh.html')
+        return render(request,'main/Signin2.html')
     else:
         print('er')
         request.session['error'] = '输入错误请检查用户名与密码'
